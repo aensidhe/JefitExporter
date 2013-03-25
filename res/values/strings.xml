@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">JeFit data exporter</string>
+    <string name="activity_title_jefit_export">JeFit data exporter</string>
+    <string name="date_time_fragment_editor_hint">Enter date</string>
+    <string name="date_time_fragment_show_dialog_button_caption">Choose</string>
+    <string name="date_time_fragment_clear_button_caption">Clear</string>
+    <string name="jefit_export_start_date_editor_hint">Enter start date</string>
+    <string name="jefit_export_start_date_editor_title">Start date</string>
+    <string name="jefit_export_end_date_editor_hint">Enter end date</string>
+    <string name="jefit_export_end_date_editor_title">End date</string>
 </resources>

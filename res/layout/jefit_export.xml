@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res/ru.AenSidhe.jefit.exporter.xlsx"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <fragment android:id="@+id/jefit_export_startDate"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            class="ru.AenSidhe.jefit.exporter.xlsx.DateTimeFragment"
+            app:HintText="@string/jefit_export_start_date_editor_hint"
+            app:DialogTitle="@string/jefit_export_start_date_editor_title"/>
+
+    <fragment android:id="@+id/jefit_export_endDate"
+              android:layout_height="wrap_content"
+              android:layout_width="match_parent"
+              class="ru.AenSidhe.jefit.exporter.xlsx.DateTimeFragment"
+              app:HintText="@string/jefit_export_end_date_editor_hint"
+              app:DialogTitle="@string/jefit_export_end_date_editor_title"/>
+
+</LinearLayout>

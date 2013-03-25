@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <EditText android:id="@+id/date_time_fragment_editor"
+              android:layout_width="0dp"
+              android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:hint="@string/date_time_fragment_editor_hint"
+              android:inputType="date"/>
+
+    <Button android:id="@+id/date_time_fragment_show_dialog_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/date_time_fragment_show_dialog_button_caption"
+            />
+
+    <Button android:id="@+id/date_time_fragment_clear_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/date_time_fragment_clear_button_caption"
+            />
+
+</LinearLayout>
