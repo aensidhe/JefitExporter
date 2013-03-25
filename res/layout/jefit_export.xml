@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:text="@string/jefit_export_export_button_caption"
-                android:onClick="launchExport"/>
+                android:onClick="exportButtonClick"/>
 
     </LinearLayout>
 

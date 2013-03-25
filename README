@@ -1,3 +1,3 @@
-This file was created by IntelliJ IDEA 12.0.4 for binding GitHub repository
+JeFit Exporter.
 
-Test from AIDE.
+Exports data from backup of Jefit database into *.xlsx file.
