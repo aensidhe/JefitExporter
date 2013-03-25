@@ -13,7 +13,11 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class DateTimeFragment extends Fragment
 {
@@ -27,7 +31,7 @@ public class DateTimeFragment extends Fragment
 		_view.findViewById(R.id.date_time_fragment_clear_button).setOnClickListener(new TextClearer());
 
 		if (_editorHint != null)
-			setHint(_editorHint);
+			getEditor().setHint(_editorHint);
 
 		return _view;
 	}
@@ -41,15 +45,20 @@ public class DateTimeFragment extends Fragment
 		a.recycle();
 	}
 
-	public DateTimeFragment setHint(CharSequence text)
+	public Date getDate()
 	{
-		getEditor().setHint(text);
-		return this;
-	}
+		final String s = getEditor().getText().toString();
+		if (s == null || s.length() == 0)
+			return null;
 
-	public CharSequence getText()
-	{
-		return getEditor().getText().toString();
+		try
+		{
+			return simpleDateFormat.parse(s);
+		}
+		catch (ParseException e)
+		{
+			return null;
+		}
 	}
 
 	private View _view;
@@ -57,6 +66,8 @@ public class DateTimeFragment extends Fragment
 	private CharSequence _dialogTitle;
 
 	private CharSequence _editorHint;
+
+	private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
 
 	private EditText getEditor()
 	{
@@ -78,7 +89,7 @@ public class DateTimeFragment extends Fragment
 		@Override
 		public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
 		{
-			getEditor().setText(String.format("%d-%d-%d", year, monthOfYear, dayOfMonth));
+			getEditor().setText(simpleDateFormat.format(new Date(year, monthOfYear, dayOfMonth)));
 		}
 	}
 

@@ -20,4 +20,17 @@
               app:HintText="@string/jefit_export_end_date_editor_hint"
               app:DialogTitle="@string/jefit_export_end_date_editor_title"/>
 
+    <LinearLayout android:orientation="vertical"
+                  android:gravity="center"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+
+        <Button android:id="@+id/jefit_export_export_button"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/jefit_export_export_button_caption"
+                android:onClick="launchExport"/>
+
+    </LinearLayout>
+
 </LinearLayout>
