@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.*;
 import android.app.*;
+import org.joda.time.LocalDate;
+
 import java.util.*;
 
 public class JeFitExport extends Activity
@@ -16,13 +18,13 @@ public class JeFitExport extends Activity
 	
 	public void exportButtonClick(View view)
 	{
-		Date startDate = getStartDateEditor().getDate();
-		Date endDate = getEndDateEditor().getDate();
+		LocalDate startDate = getStartDateEditor().getDate();
+		LocalDate endDate = getEndDateEditor().getDate();
 		new AlertDialog.Builder(this)
 			.setMessage(
-				(startDate != null ? startDate.toGMTString() : "<null>") + 
+				(startDate != null ? startDate.toString() : "<null>") +
 				"\n" + 
-				(endDate != null ? endDate.toGMTString() : "<null>")
+				(endDate != null ? endDate.toString() : "<null>")
 			)
 			.create()
 			.show();

@@ -12,6 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import org.joda.time.DateMidnight;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -45,7 +49,7 @@ public class DateTimeFragment extends Fragment
 		a.recycle();
 	}
 
-	public Date getDate()
+	public LocalDate getDate()
 	{
 		final String s = getEditor().getText().toString();
 		if (s == null || s.length() == 0)
@@ -53,9 +57,9 @@ public class DateTimeFragment extends Fragment
 
 		try
 		{
-			return simpleDateFormat.parse(s);
+			return LocalDate.parse(getEditor().getText().toString());
 		}
-		catch (ParseException e)
+		catch (Exception e)
 		{
 			return null;
 		}
@@ -76,12 +80,21 @@ public class DateTimeFragment extends Fragment
 
 	private class DialogActivator implements View.OnClickListener, DatePickerDialog.OnDateSetListener
 	{
+		private LocalDate _date;
+
 		@Override
 		public void onClick(View v)
 		{
-            Calendar c = Calendar.getInstance();
+			try
+			{
+				_date = LocalDate.parse(getEditor().getText().toString());
+			}
+			catch (Exception e)
+			{
+				_date = LocalDate.now();
+			}
 
-			DatePickerDialog d = new DatePickerDialog(getActivity(), this, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+			DatePickerDialog d = new DatePickerDialog(getActivity(), this, _date.getYear(), _date.getMonthOfYear(), _date.getDayOfMonth());
 			d.setTitle(_dialogTitle);
 			d.show();
 		}
@@ -89,7 +102,8 @@ public class DateTimeFragment extends Fragment
 		@Override
 		public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
 		{
-			getEditor().setText(simpleDateFormat.format(new Date(year, monthOfYear, dayOfMonth)));
+			_date = new LocalDate(year, monthOfYear, dayOfMonth);
+			getEditor().setText(_date.toString());
 		}
 	}
 
