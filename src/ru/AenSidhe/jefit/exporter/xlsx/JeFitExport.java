@@ -7,6 +7,7 @@ import android.app.*;
 import org.joda.time.LocalDate;
 
 import java.io.FileNotFoundException;
+import java.util.*;
 
 public class JeFitExport extends Activity
 {
@@ -24,7 +25,22 @@ public class JeFitExport extends Activity
 
 		try
 		{
-			message = Integer.toString(new Exporter(startDate, endDate).readData().getData());
+			Iterator<ExerciseData> data = new Exporter(startDate, endDate)
+				.readData()
+				.getData()
+				.iterator();
+				
+			StringBuilder sb = new StringBuilder();
+			
+			while(data.hasNext())
+			{
+				ExerciseData next = data.next();
+				Iterator<String> logIterator = next.getLogIterator();
+				while (logIterator.hasNext())
+					sb.append(String.format("%s - %s", next.getName(), logIterator.next())).append("\n");
+			}
+			
+			message = sb.toString();
 		}
 		catch (FileNotFoundException e)
 		{
