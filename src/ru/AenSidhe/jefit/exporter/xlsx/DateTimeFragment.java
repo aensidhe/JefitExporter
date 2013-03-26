@@ -12,16 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import org.joda.time.DateMidnight;
 import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class DateTimeFragment extends Fragment
 {
@@ -70,8 +61,6 @@ public class DateTimeFragment extends Fragment
 	private CharSequence _dialogTitle;
 
 	private CharSequence _editorHint;
-
-	private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
 
 	private EditText getEditor()
 	{

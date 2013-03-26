@@ -6,7 +6,7 @@ import android.view.*;
 import android.app.*;
 import org.joda.time.LocalDate;
 
-import java.util.*;
+import java.io.FileNotFoundException;
 
 public class JeFitExport extends Activity
 {
@@ -20,12 +20,19 @@ public class JeFitExport extends Activity
 	{
 		LocalDate startDate = getStartDateEditor().getDate();
 		LocalDate endDate = getEndDateEditor().getDate();
+		CharSequence message;
+
+		try
+		{
+			message = Integer.toString(new Exporter(startDate, endDate).readData().getData());
+		}
+		catch (FileNotFoundException e)
+		{
+			message = e.getMessage();
+		}
+
 		new AlertDialog.Builder(this)
-			.setMessage(
-				(startDate != null ? startDate.toString() : "<null>") +
-				"\n" + 
-				(endDate != null ? endDate.toString() : "<null>")
-			)
+			.setMessage(message)
 			.create()
 			.show();
 	}
