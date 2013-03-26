@@ -10,14 +10,11 @@ import java.util.*;
 
 public class Exporter
 {
-	private final LocalDate _start;
-	private final LocalDate _end;
-	private List<ExerciseData> _data;
-
-	public Exporter(LocalDate start, LocalDate end)
+	public Exporter(LocalDate start, LocalDate end, Boolean usePro)
 	{
 		_start = start;
 		_end = end;
+		_usePro = usePro;
 	}
 
 	public List<ExerciseData> getData()
@@ -31,7 +28,7 @@ public class Exporter
 		_data = new ArrayList<ExerciseData>();
 		try
 		{
-			db = SQLiteDatabase.openDatabase("/sdcard/jefit/jefit.bak", null, SQLiteDatabase.OPEN_READONLY);
+			db = SQLiteDatabase.openDatabase(getDatabasePath(), null, SQLiteDatabase.OPEN_READONLY);
 			if (db == null)
 				throw new FileNotFoundException("database wasn't found");
 
@@ -52,4 +49,16 @@ public class Exporter
 
 		return this;
 	}
+
+	private String getDatabasePath()
+	{
+		final String nonPro = "/sdcard/jefit/jefit.bak";
+		final String pro = "/sdcard/jefit/jefit_pro.bak";
+		return _usePro ? pro : nonPro;
+	}
+	
+	private final LocalDate _start;
+	private final LocalDate _end;
+	private List<ExerciseData> _data;
+	private final Boolean _usePro;
 }

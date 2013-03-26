@@ -8,6 +8,7 @@ import org.joda.time.LocalDate;
 
 import java.io.FileNotFoundException;
 import java.util.*;
+import android.widget.*;
 
 public class JeFitExport extends Activity
 {
@@ -21,11 +22,12 @@ public class JeFitExport extends Activity
 	{
 		LocalDate startDate = getStartDateEditor().getDate();
 		LocalDate endDate = getEndDateEditor().getDate();
+		Boolean isPro = getProEditor().isChecked();
 		CharSequence message;
 
 		try
 		{
-			Iterator<ExerciseData> data = new Exporter(startDate, endDate)
+			Iterator<ExerciseData> data = new Exporter(startDate, endDate, isPro)
 				.readData()
 				.getData()
 				.iterator();
@@ -61,5 +63,10 @@ public class JeFitExport extends Activity
 	private DateTimeFragment getEndDateEditor()
 	{
 		return (DateTimeFragment) getFragmentManager().findFragmentById(R.id.jefit_export_endDate);
+	}
+	
+	private CheckBox getProEditor()
+	{
+		return (CheckBox) findViewById(R.id.jefit_export_pro);
 	}
 }

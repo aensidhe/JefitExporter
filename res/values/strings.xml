@@ -10,4 +10,5 @@
     <string name="jefit_export_end_date_editor_hint">Enter end date</string>
     <string name="jefit_export_end_date_editor_title">End date</string>
     <string name="jefit_export_export_button_caption">Launch export</string>
+	<string name="jefit_export_pro_checkbox">Do you use PRO?</string>
 </resources>
