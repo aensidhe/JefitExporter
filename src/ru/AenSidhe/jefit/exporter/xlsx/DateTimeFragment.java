@@ -69,8 +69,6 @@ public class DateTimeFragment extends Fragment
 
 	private class DialogActivator implements View.OnClickListener, DatePickerDialog.OnDateSetListener
 	{
-		private LocalDate _date;
-
 		@Override
 		public void onClick(View v)
 		{
@@ -83,17 +81,21 @@ public class DateTimeFragment extends Fragment
 				_date = LocalDate.now();
 			}
 
-			DatePickerDialog d = new DatePickerDialog(getActivity(), this, _date.getYear(), _date.getMonthOfYear(), _date.getDayOfMonth());
-			d.setTitle(_dialogTitle);
-			d.show();
+			_dialog = new DatePickerDialog(getActivity(), this, _date.getYear(), _date.getMonthOfYear() - 1, _date.getDayOfMonth());
+			_dialog.setTitle(_dialogTitle);
+			_dialog.show();
 		}
 
 		@Override
 		public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
 		{
-			_date = new LocalDate(year, monthOfYear, dayOfMonth);
+			_date = new LocalDate(year, monthOfYear + 1, dayOfMonth);
 			getEditor().setText(_date.toString());
+			_dialog.dismiss();
 		}
+
+		private LocalDate _date;
+		private DatePickerDialog _dialog;
 	}
 
 	private class TextClearer implements View.OnClickListener

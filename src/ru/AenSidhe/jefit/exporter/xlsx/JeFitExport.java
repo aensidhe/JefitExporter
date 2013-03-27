@@ -27,7 +27,7 @@ public class JeFitExport extends Activity
 
 		try
 		{
-			Iterator<ExerciseData> data = new Exporter(startDate, endDate, isPro)
+			Iterator<Set> data = new Exporter(startDate, endDate, isPro)
 				.readData()
 				.getData()
 				.iterator();
@@ -36,10 +36,13 @@ public class JeFitExport extends Activity
 			
 			while(data.hasNext())
 			{
-				ExerciseData next = data.next();
-				Iterator<String> logIterator = next.getLogIterator();
+				Set next = data.next();
+				Iterator<ExerciseData> logIterator = next.getExercises();
 				while (logIterator.hasNext())
-					sb.append(String.format("%s - %s", next.getName(), logIterator.next())).append("\n");
+				{
+					final ExerciseData exerciseData = logIterator.next();
+					sb.append(String.format("%s - %.1f - %d", next.getName(), exerciseData.getWeight(), exerciseData.getReps())).append("\n");
+				}
 			}
 			
 			message = sb.toString();

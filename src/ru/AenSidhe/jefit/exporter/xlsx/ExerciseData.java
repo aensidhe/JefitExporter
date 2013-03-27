@@ -1,29 +1,25 @@
 package ru.AenSidhe.jefit.exporter.xlsx;
-import org.joda.time.*;
-import java.util.*;
 
 public class ExerciseData
 {
-	public ExerciseData(String name, String logs, LocalDate date)
+	public ExerciseData(String s)
 	{
-		_name = name;
-		_logs = Arrays.asList(logs.split(","));
-		_date = date;
+		String[] data = s.split("x");
+
+		_weight = Double.parseDouble(data[0]);
+		_reps = Integer.parseInt(data[1]);
 	}
-	
-	public String getName()
+
+	public double getWeight()
 	{
-		return _name;
+		return _weight;
 	}
-	
-	public Iterator<String> getLogIterator()
+
+	public int getReps()
 	{
-		return _logs.iterator();
+		return _reps;
 	}
-	
-	private final String _name;
-	
-	private final List<String> _logs;
-	
-	private final LocalDate _date;
+
+	private final double _weight;
+	private final int _reps;
 }

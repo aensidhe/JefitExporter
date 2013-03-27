@@ -2,22 +2,32 @@ package ru.AenSidhe.jefit.exporter.xlsx;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.CancellationSignal;
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Exporter
 {
+
 	public Exporter(LocalDate start, LocalDate end, Boolean usePro)
 	{
-		_start = start;
-		_end = end;
+		if (start != null && end != null && start.isAfter(end))
+		{
+			_end = start;
+			_start = end;
+		}
+		else
+		{
+			_start = start;
+			_end = end;
+		}
 		_usePro = usePro;
 	}
 
-	public List<ExerciseData> getData()
+	public List<Set> getData()
 	{
 		return _data;
 	}
@@ -25,17 +35,39 @@ public class Exporter
 	public Exporter readData() throws FileNotFoundException
 	{
 		SQLiteDatabase db = null;
-		_data = new ArrayList<ExerciseData>();
+		_data = new ArrayList<Set>();
 		try
 		{
 			db = SQLiteDatabase.openDatabase(getDatabasePath(), null, SQLiteDatabase.OPEN_READONLY);
 			if (db == null)
 				throw new FileNotFoundException("database wasn't found");
 
-			Cursor cursor = db.rawQuery("select ename, logs from exerciseLogs order by mydate", null);
+			String condition;
+			String[] args;
+
+			if (_start != null && _end != null)
+			{
+				condition = _bothDateCondition;
+				args = new String[]{ _formatter.print(_start), _formatter.print(_end) };
+			}
+			else if (_start == null && _end == null)
+			{
+				condition = _noDateCondition;
+				args = null;
+			}
+			else
+			{
+				LocalDate date = _start == null ? _end : _start;
+				String operator = _start == null ? "<=" : ">=";
+				condition = String.format(_oneDateCondition, operator);
+				args = new String[] {_formatter.print(date)};
+			}
+
+			Cursor cursor = db.rawQuery(String.format(_query, condition), args);
+
 			while (cursor.moveToNext())
 			{
-				_data.add(new ExerciseData(cursor.getString(0), cursor.getString(1), new LocalDate()));
+				_data.add(new Set(cursor.getString(0), cursor.getString(1), LocalDate.parse(cursor.getString(2), _formatter)));
 				if (_data.size() == 2)
 					break;
 			}
@@ -59,6 +91,22 @@ public class Exporter
 	
 	private final LocalDate _start;
 	private final LocalDate _end;
-	private List<ExerciseData> _data;
+	private List<Set> _data;
 	private final Boolean _usePro;
+
+	private final static String _dateTimePattern = "yyyy-MM-dd";
+	private final DateTimeFormatter _formatter = DateTimeFormat.forPattern(_dateTimePattern);
+
+	private final static String _query =
+		"select el.ename, el.logs, el.mydate " +
+		"from exerciseLogs el " +
+			"left outer join cardioLogs cl on el._id = cl.eid " +
+		"where cl._id is null and %s" +
+		"order by el.mydate";
+
+	private final static String _bothDateCondition = "el.mydate between ? and ? ";
+
+	private final static String _oneDateCondition = "el.mydate %s ? ";
+
+	private final static String _noDateCondition = "1 = 1 ";
 }
