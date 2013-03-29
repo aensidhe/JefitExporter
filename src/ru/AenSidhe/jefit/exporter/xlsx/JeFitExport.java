@@ -9,6 +9,7 @@ import org.joda.time.LocalDate;
 import java.io.FileNotFoundException;
 import java.util.*;
 import android.widget.*;
+import java.io.*;
 
 public class JeFitExport extends Activity
 {
@@ -52,6 +53,26 @@ public class JeFitExport extends Activity
 			message = e.getMessage();
 		}
 
+		new AlertDialog.Builder(this)
+			.setMessage(message)
+			.create()
+			.show();
+	}
+	
+	public void excelTestClick(View view)
+	{
+		ExcelFormatter f = new ExcelFormatter();
+		
+		String message;
+		try
+		{
+			message = f.CreateExcel(null, this);
+		}
+		catch (IOException e)
+		{
+			message = e.getMessage();
+		}
+		
 		new AlertDialog.Builder(this)
 			.setMessage(message)
 			.create()

@@ -14,8 +14,16 @@ public class Set
 
 		while (iterator.hasNext())
 		{
-			_reps.add(new ExerciseData(iterator.next()));
+			try
+			{
+				_reps.add(new ExerciseData(iterator.next()));
+			}
+			catch (NumberFormatException e)
+			{
+				// we just skip bad data for now
+			}
 		}
+		
 		_name = name;
 		_date = date;
 	}
