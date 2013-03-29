@@ -13,7 +13,7 @@ public class ExcelFormatter
 	public String CreateExcel(Iterator<Set> sets, Context context) throws IOException
 	{
 		Workbook wb = new HSSFWorkbook();
-		String fileName = _now.toString("jefit_yyyyMMdd_HHmmss.xls");
+		String fileName = String.format("jefit_%s.xls", _now.toString("yyyyMMdd_HHmmss"));
 		File file = new File(context.getExternalFilesDir(null), fileName);
 		FileOutputStream fileOut = new FileOutputStream(file);
 		wb.write(fileOut);
