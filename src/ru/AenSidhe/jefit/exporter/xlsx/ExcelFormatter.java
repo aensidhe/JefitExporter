@@ -9,6 +9,7 @@ import org.joda.time.*;
 import android.content.*;
 import android.os.*;
 import android.widget.*;
+import android.util.*;
 
 public class ExcelFormatter extends DataFormatter
 {
@@ -34,9 +35,16 @@ public class ExcelFormatter extends DataFormatter
 	
 	protected void WriteExerciseHeader(String name)
 	{
-		_currentSheet = _workbook.createSheet(name);
-		_currentRowIndex = 0;
-		BuildHeader();
+		try
+		{
+			_currentSheet = _workbook.createSheet(name);
+			_currentRowIndex = 0;
+			BuildHeader();
+		}
+		catch(Exception e)
+		{
+			Log.e("ExcelFormatter", String.format("{Name: \"%s\", Message:\"%s\" }", name, e.getMessage()));
+		}
 	}
 
 	protected void WriteLogEntry(LocalDate date, ExerciseData entry)

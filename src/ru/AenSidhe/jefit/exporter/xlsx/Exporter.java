@@ -69,8 +69,8 @@ public class Exporter
 			while (cursor.moveToNext())
 			{
 				_data.add(new Set(cursor.getString(0), cursor.getString(1), LocalDate.parse(cursor.getString(2), _formatter)));
-				if (_data.size() == 2)
-					break;
+				//if (_data.size() == 2)
+					//break;
 			}
 			cursor.close();
 		}
