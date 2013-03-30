@@ -1,7 +1,6 @@
 package ru.AenSidhe.jefit.exporter.xlsx;
 
-import android.app.Activity;
-import android.os.Bundle;
+import android.os.*;
 import android.view.*;
 import android.app.*;
 import org.joda.time.LocalDate;
@@ -15,6 +14,7 @@ public class JeFitExport extends Activity
 {
 	public void onCreate(Bundle savedInstanceState)
 	{
+		Utils.SetPackageName(getPackageName());
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.jefit_export);
 	}
@@ -52,6 +52,10 @@ public class JeFitExport extends Activity
 		{
 			message = e.getMessage();
 		}
+		catch (IOException e)
+		{
+			message = e.getMessage();
+		}
 
 		new AlertDialog.Builder(this)
 			.setMessage(message)
@@ -61,12 +65,12 @@ public class JeFitExport extends Activity
 	
 	public void excelTestClick(View view)
 	{
-		ExcelFormatter f = new ExcelFormatter();
+		ExcelFormatter f = new ExcelFormatter(this);
 		
 		String message;
 		try
 		{
-			message = f.CreateExcel(null, this);
+			message = f.CreateExcel(null);
 		}
 		catch (IOException e)
 		{

@@ -8,6 +8,7 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.io.*;
 
 public class Exporter
 {
@@ -32,7 +33,7 @@ public class Exporter
 		return _data;
 	}
 
-	public Exporter readData() throws FileNotFoundException
+	public Exporter readData() throws FileNotFoundException, IOException
 	{
 		SQLiteDatabase db = null;
 		_data = new ArrayList<Set>();
@@ -82,11 +83,9 @@ public class Exporter
 		return this;
 	}
 
-	private String getDatabasePath()
+	private String getDatabasePath() throws IOException
 	{
-		final String nonPro = "/sdcard/jefit/jefit.bak";
-		final String pro = "/sdcard/jefit/jefit_pro.bak";
-		return _usePro ? pro : nonPro;
+		return Utils.GetFileOnSdCard("jefit", _usePro ? "jefit_pro.bak" : "jefit.bak", false).getAbsolutePath();
 	}
 	
 	private final LocalDate _start;
