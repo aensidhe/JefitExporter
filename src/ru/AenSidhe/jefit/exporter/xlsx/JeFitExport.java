@@ -5,7 +5,6 @@ import android.view.*;
 import android.app.*;
 import org.joda.time.LocalDate;
 
-import java.io.FileNotFoundException;
 import java.util.*;
 import android.widget.*;
 import java.io.*;
@@ -33,20 +32,16 @@ public class JeFitExport extends Activity
 				.getData()
 				.iterator();
 				
-			StringBuilder sb = new StringBuilder();
-			
-			while(data.hasNext())
+			DataFormatter f = new ExcelFormatter(this);
+
+			try
 			{
-				Set next = data.next();
-				Iterator<ExerciseData> logIterator = next.getExercises();
-				while (logIterator.hasNext())
-				{
-					final ExerciseData exerciseData = logIterator.next();
-					sb.append(String.format("%s - %.1f - %d", next.getName(), exerciseData.getWeight(), exerciseData.getReps())).append("\n");
-				}
+				message = f.FormatSets(data);
 			}
-			
-			message = sb.toString();
+			catch (IOException e)
+			{
+				message = e.getMessage();
+			}	
 		}
 		catch (FileNotFoundException e)
 		{
@@ -57,30 +52,7 @@ public class JeFitExport extends Activity
 			message = e.getMessage();
 		}
 
-		new AlertDialog.Builder(this)
-			.setMessage(message)
-			.create()
-			.show();
-	}
-	
-	public void excelTestClick(View view)
-	{
-		ExcelFormatter f = new ExcelFormatter(this);
-		
-		String message;
-		try
-		{
-			message = f.CreateExcel(null);
-		}
-		catch (IOException e)
-		{
-			message = e.getMessage();
-		}
-		
-		new AlertDialog.Builder(this)
-			.setMessage(message)
-			.create()
-			.show();
+		Toast.makeText(this, message, Toast.LENGTH_SHORT);
 	}
 	
 	private DateTimeFragment getStartDateEditor()

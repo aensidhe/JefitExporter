@@ -10,25 +10,67 @@ import android.content.*;
 import android.os.*;
 import android.widget.*;
 
-public class ExcelFormatter
+public class ExcelFormatter extends DataFormatter
 {
 	public ExcelFormatter(Context context)
 	{
-		_context = context;
+		super(context);
 	}
 
-	public String CreateExcel(Iterator<Set> sets) throws IOException
+	protected String GetFileName()
 	{
-		Workbook wb = new HSSFWorkbook();
-		String fileName = String.format("jefit_%s.xls", _now.toString("yyyyMMdd_HHmmss"));
-		File file = Utils.GetFileOnSdCard(fileName, true);
-		FileOutputStream fileOut = new FileOutputStream(file);
-		wb.write(fileOut);
-		fileOut.close();
-		return file.getAbsolutePath();
+		return String.format("jefit_%s.xls", _now.toString("yyyyMMdd_HHmmss"));
+	}
+	
+	protected void Init()
+	{
+		_workbook = new HSSFWorkbook();
+	}
+	
+	protected void Save(FileOutputStream stream) throws IOException
+	{
+		_workbook.write(stream);
+	}
+	
+	protected void WriteExerciseHeader(String name)
+	{
+		_currentSheet = _workbook.createSheet(name);
+		_currentRowIndex = 0;
+		BuildHeader();
 	}
 
-	private final DateTime _now = new DateTime();
+	protected void WriteLogEntry(LocalDate date, ExerciseData entry)
+	{
+		ArrayList<String> row = new ArrayList<String>();
+		row.add(date.toString());
+		row.add(Double.toString(entry.getWeight()));
+		row.add(Integer.toString(entry.getReps()));
+
+		BuildRow(row);
+	}
 	
-	private final Context _context;
+	private void BuildHeader()
+	{
+		ArrayList<String> header = new ArrayList<String>();
+		header.add("Date");
+		header.add("Weight");
+		header.add("Reps");
+		BuildRow(header);
+	}
+
+	private void BuildRow(List<String> values)
+	{
+		if (values == null)
+			return;
+
+		Row row = _currentSheet.createRow(_currentRowIndex++);
+		for (Integer i = 0; i < values.size(); i++)
+			row.createCell(i).setCellValue(values.get(i));
+	}
+	
+	private int _currentRowIndex;
+	
+	private Sheet _currentSheet;
+	
+	private Workbook _workbook;
 }
