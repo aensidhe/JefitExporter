@@ -35,9 +35,11 @@ public abstract class DataFormatter
 	
 	protected abstract void WriteLogEntry(LocalDate date, ExerciseData entry);
 	
+	protected abstract void WriteExerciseFooter(String name);
+	
 	private void WriteData(Iterator<Set> sets)
 	{
-		HashMap<String, List<Set>> data = new HashMap<String, List<Set>>();
+		SortedMap<String, List<Set>> data = new TreeMap<String, List<Set>>();
 		while (sets.hasNext())
 		{
 			Set set = sets.next();
@@ -71,6 +73,8 @@ public abstract class DataFormatter
 				while (it.hasNext())
 					WriteLogEntry(set.getDate(), it.next());
 			}
+			
+			WriteExerciseFooter(key);
 		}
 	}
 

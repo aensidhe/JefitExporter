@@ -10,6 +10,7 @@ import android.content.*;
 import android.os.*;
 import android.widget.*;
 import android.util.*;
+import org.apache.poi.ss.usermodel.charts.*;
 
 public class ExcelFormatter extends DataFormatter
 {
@@ -39,12 +40,16 @@ public class ExcelFormatter extends DataFormatter
 		{
 			_currentSheet = _workbook.createSheet(name);
 			_currentRowIndex = 0;
-			BuildHeader();
+			BuildHeader(name);
 		}
 		catch(Exception e)
 		{
 			Log.e("ExcelFormatter", String.format("{Name: \"%s\", Message:\"%s\" }", name, e.getMessage()));
 		}
+	}
+	
+	protected void WriteExerciseFooter(String name)
+	{
 	}
 
 	protected void WriteLogEntry(LocalDate date, ExerciseData entry)
@@ -57,9 +62,13 @@ public class ExcelFormatter extends DataFormatter
 		BuildRow(row);
 	}
 	
-	private void BuildHeader()
+	private void BuildHeader(String name)
 	{
 		ArrayList<String> header = new ArrayList<String>();
+		header.add(name);
+		BuildRow(header);
+		
+		header.clear();
 		header.add("Date");
 		header.add("Weight");
 		header.add("Reps");

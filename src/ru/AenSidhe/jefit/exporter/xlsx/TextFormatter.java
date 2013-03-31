@@ -32,6 +32,11 @@ public class TextFormatter extends DataFormatter
 	{
 		_sb.append(String.format("%s\r\n", name));
 	}
+	
+	protected void WriteExerciseFooter(String name)
+	{
+		// no footer in texts
+	}
 
 	protected void WriteLogEntry(LocalDate date, ExerciseData entry)
 	{

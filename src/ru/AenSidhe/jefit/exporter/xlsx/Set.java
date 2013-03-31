@@ -24,7 +24,12 @@ public class Set
 			}
 		}
 		
-		_name = name;
+		String toReplace = new String(new char[] { name.charAt(0) });
+		
+		StringBuilder sb = new StringBuilder(name.toLowerCase());
+		sb.replace(0, 1, toReplace.toUpperCase());
+		
+		_name = sb.toString();
 		_date = date;
 	}
 
